@@ -1,0 +1,300 @@
+{
+	"info": {
+		"_postman_id": "b5048632-5909-43bd-98b7-a3dbb859d9fe",
+		"name": "Zadatak 1 ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\":\n{\n\"email\": \"ljsanelbp+3@gmail.com\",\n\"nickname\": \"new\",\n\"password\": \"newnew1\",\n\"password_confirmation\": \"newnew1!\"\n}\n}"
+				},
+				"url": {
+					"raw": "https://klikaba.atlassian.net/browse/LEP-967",
+					"protocol": "https",
+					"host": [
+						"klikaba",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"browse",
+						"LEP-967"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Kreiranje transfera ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1ee6facd-5513-4a9c-9ef0-c99a1a940e44",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"var id = jsonData.single_transaction[0].id;",
+							"",
+							"pm.globals.set(\"transferidsingle\", id);",
+							"pm.environment.set(\"transferidsingle\",id)",
+							"",
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"var id = jsonData.group_transaction.id;",
+							"",
+							"pm.globals.set(\"transferidgroup\", id);",
+							"pm.environment.set(\"transfergroup\",id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenlogin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"transaction\": \n{\"receiver_id\":[1],\n\"amount\": 1,\n\"values\": [\"help\"], \n\"message\": \"Super ste!\"\n}\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/transactions",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listu svih registrovanih usera",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{tokenlogin}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/v1/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d2fd212d-35ea-408d-b9de-8c597776823e",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"var id = jsonData.access_token;",
+							"console.log(id);",
+							"",
+							"pm.globals.set(\"tokenlogin\",id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"ljsanelbp@gmail.com\",\n\"password\": \"Auto+!\",\n\"client_id\": \"fdd371ba5156b95e30f911af8cfc5c05bbefb54c563b0b1bacf839b1ee8f27d8\",\n\"client_secret\": \"af228c8e160749c71234ee8210e2ada6e124e7029cf35745980ab14970f93837\"}"
+				},
+				"url": {
+					"raw": "{{url}}/oauth/token?grant_type=password",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "password"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listu svih transfera ",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenlogin}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/v1/transactions",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete transfera ",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/transactions/{id}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"transactions",
+						"{id}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
